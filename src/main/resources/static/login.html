@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Task Manager Login</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f2f2f2;
+}
+
+.container{
+width:350px;
+margin:120px auto;
+background:white;
+padding:30px;
+border-radius:6px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:4px;
+}
+
+button{
+width:100%;
+padding:10px;
+background:#007bff;
+border:none;
+color:white;
+border-radius:4px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Task Management Login</h2>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<script>
+
+function login(){
+
+fetch("/users/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+email:email.value,
+password:password.value
+})
+})
+.then(res=>res.json())
+.then(user=>{
+
+console.log(user)
+
+localStorage.setItem("userId",user.id)
+localStorage.setItem("role",user.role)
+
+if(user.role==="TEAM_LEAD")
+window.location="lead.html"
+else
+window.location="member.html"
+
+})
+.catch(()=>alert("Invalid Login"))
+
+}
+
+</script>
+
+</body>
+</html>

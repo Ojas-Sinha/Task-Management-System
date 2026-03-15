@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Team Lead Dashboard</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+margin:0;
+}
+
+.header{
+background:#2c3e50;
+color:white;
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logout{
+background:#e74c3c;
+color:white;
+border:none;
+padding:8px 14px;
+border-radius:4px;
+cursor:pointer;
+}
+
+.container{
+padding:20px;
+}
+
+/* cards */
+
+.cards{
+display:flex;
+gap:20px;
+margin-bottom:20px;
+}
+
+.card{
+flex:1;
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.card p{
+font-size:24px;
+font-weight:bold;
+}
+
+/* form */
+
+.formBox{
+background:white;
+padding:20px;
+border-radius:8px;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+input,textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:10px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+/* member checkbox list */
+
+.memberList{
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:10px;
+margin-bottom:20px;
+}
+
+.memberItem{
+display:flex;
+align-items:center;
+gap:6px;
+padding:10px 14px;
+background:#f8f9fa;
+border-radius:8px;
+border:1px solid #ddd;
+cursor:pointer;
+transition:0.2s;
+}
+
+.memberItem:hover{
+background:#ecf3ff;
+border-color:#3498db;
+}
+
+.memberItem input{
+transform:scale(1.1);
+}
+
+.memberItem.selected{
+background:#d6eaff;
+border-color:#3498db;
+}
+
+.assignBtnContainer{
+margin-top:10px;
+}
+/* buttons */
+
+button{
+padding:8px 14px;
+border:none;
+border-radius:6px;
+background:#3498db;
+color:white;
+cursor:pointer;
+}
+
+/* toolbar (same style as member dashboard) */
+
+.taskToolbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+flex-wrap:wrap;
+gap:15px;
+}
+
+.searchBox input{
+padding:10px 14px;
+width:260px;
+border-radius:8px;
+border:1px solid #ccc;
+font-size:14px;
+outline:none;
+}
+
+.searchBox input:focus{
+border-color:#3498db;
+box-shadow:0 0 4px rgba(52,152,219,0.4);
+}
+
+.filters{
+display:flex;
+gap:10px;
+}
+
+.filterBtn{
+padding:8px 16px;
+border:none;
+border-radius:20px;
+background:#ecf0f1;
+color:#333;
+font-weight:500;
+cursor:pointer;
+}
+
+.filterBtn.active{
+background:#3498db;
+color:white;
+}
+
+.taskMessage{
+margin-top:10px;
+font-weight:bold;
+}
+
+.success{
+color:green;
+}
+
+.error{
+color:red;
+}
+
+/* table */
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
+table-layout:fixed;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #ddd;
+text-align:center;
+}
+
+th{
+background:#34495e;
+color:white;
+}
+
+th:nth-child(1){width:20%;}
+th:nth-child(2){width:40%;}
+th:nth-child(3){width:25%;}
+th:nth-child(4){width:15%;}
+
+td{
+word-wrap:break-word;
+}
+
+/* status */
+
+.status{
+padding:5px 10px;
+border-radius:5px;
+color:white;
+font-size:12px;
+}
+
+.pending{background:#f39c12;}
+.working{background:#3498db;}
+.done{background:#2ecc71;}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<h2>Team Lead Dashboard</h2>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+<!-- stats cards -->
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Tasks</h3>
+<p id="totalTasks">0</p>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<p id="pendingTasks">0</p>
+</div>
+
+<div class="card">
+<h3>Working</h3>
+<p id="workingTasks">0</p>
+</div>
+
+<div class="card">
+<h3>Done</h3>
+<p id="doneTasks">0</p>
+</div>
+
+</div>
+
+<!-- assign task -->
+
+<div class="formBox">
+
+<h3>Assign New Task</h3>
+
+<input id="title" placeholder="Task title">
+
+<textarea id="desc" placeholder="Description"></textarea>
+
+<label>Select Members</label>
+
+<div id="memberList" class="memberList"></div>
+
+<div class="assignBtnContainer">
+<button onclick="assignTask()">Assign Task</button>
+</div>
+
+<div id="taskMessage" class="taskMessage"></div>
+
+</div>
+
+<!-- search + filters -->
+
+<div class="taskToolbar">
+
+<div class="searchBox">
+<input
+type="text"
+id="searchInput"
+placeholder="Search tasks or members..."
+onkeyup="renderTasks()"
+>
+</div>
+
+<div class="filters">
+
+<button class="filterBtn active" onclick="setFilter('ALL',this)">All</button>
+<button class="filterBtn" onclick="setFilter('PENDING',this)">Pending</button>
+<button class="filterBtn" onclick="setFilter('WORKING',this)">Working</button>
+<button class="filterBtn" onclick="setFilter('DONE',this)">Done</button>
+
+</div>
+
+</div>
+
+<!-- task table -->
+
+<table>
+
+<thead>
+<tr>
+<th>Task</th>
+<th>Description</th>
+<th>Members</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="taskTable"></tbody>
+
+</table>
+
+</div>
+
+<script>
+
+let tasks=[];
+let currentFilter="ALL";
+
+/* load members */
+
+fetch("/users/members")
+.then(res=>res.json())
+.then(users=>{
+
+let list=document.getElementById("memberList");
+
+list.innerHTML="";
+
+users.forEach(u=>{
+
+let item=document.createElement("label");
+
+item.className="memberItem";
+
+item.innerHTML=`
+<input type="checkbox" value="${u.id}">
+${u.name}
+`;
+
+item.querySelector("input").addEventListener("change",function(){
+
+if(this.checked){
+item.classList.add("selected");
+}
+else{
+item.classList.remove("selected");
+}
+
+});
+
+list.appendChild(item);
+
+});
+
+});
+
+/* assign task */
+
+function assignTask(){
+
+let title=document.getElementById("title").value;
+let desc=document.getElementById("desc").value;
+
+let selected=[...document.querySelectorAll("#memberList input:checked")]
+.map(c=>({id:parseInt(c.value)}));
+
+let message=document.getElementById("taskMessage");
+
+/* validation */
+
+if(!title || selected.length===0){
+
+message.innerHTML="Please enter title and select members";
+message.className="taskMessage error";
+return;
+
+}
+
+let task={
+title:title,
+description:desc,
+assignedUsers:selected
+};
+
+fetch("/tasks/assign",{
+
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify(task)
+
+})
+.then(res=>{
+
+if(!res.ok){
+throw new Error("Failed");
+}
+
+return res.json();
+
+})
+.then(()=>{
+
+message.innerHTML="Task assigned successfully";
+message.className="taskMessage success";
+
+/* clear inputs */
+
+document.getElementById("title").value="";
+document.getElementById("desc").value="";
+
+document.querySelectorAll("#memberList input")
+.forEach(c=>c.checked=false);
+
+/* reload tasks */
+
+loadTasks();
+
+})
+.catch(()=>{
+
+message.innerHTML="Failed to assign task";
+message.className="taskMessage error";
+
+});
+
+}
+
+/* load tasks */
+
+function loadTasks(){
+
+fetch("/tasks")
+.then(res=>res.json())
+.then(data=>{
+
+tasks=data;
+
+updateStats();
+renderTasks();
+
+});
+
+}
+
+loadTasks();
+
+/* stats */
+
+function updateStats(){
+
+document.getElementById("totalTasks").innerText=tasks.length;
+
+document.getElementById("pendingTasks").innerText=
+tasks.filter(t=>t.status==="PENDING").length;
+
+document.getElementById("workingTasks").innerText=
+tasks.filter(t=>t.status==="WORKING").length;
+
+document.getElementById("doneTasks").innerText=
+tasks.filter(t=>t.status==="DONE").length;
+
+}
+
+/* filter */
+
+function setFilter(status,btn){
+
+currentFilter=status;
+
+document.querySelectorAll(".filterBtn")
+.forEach(b=>b.classList.remove("active"));
+
+btn.classList.add("active");
+
+renderTasks();
+
+}
+
+/* render table */
+
+function renderTasks(){
+
+let table=document.getElementById("taskTable");
+table.innerHTML="";
+
+let search=document.getElementById("searchInput").value.toLowerCase();
+
+let filtered=tasks.filter(task=>{
+
+let members=task.assignedUsers.map(u=>u.name).join(", ").toLowerCase();
+
+let matchSearch=
+task.title.toLowerCase().includes(search) ||
+(task.description && task.description.toLowerCase().includes(search)) ||
+members.includes(search);
+
+let matchFilter=
+currentFilter==="ALL" || task.status===currentFilter;
+
+return matchSearch && matchFilter;
+
+});
+
+filtered.forEach(task=>{
+
+let statusClass="pending";
+
+if(task.status==="WORKING") statusClass="working";
+if(task.status==="DONE") statusClass="done";
+
+let members=task.assignedUsers
+.map(u=>u.name)
+.join(", ");
+
+table.innerHTML+=`
+
+<tr>
+
+<td>${task.title}</td>
+
+<td>${task.description ? task.description : "-"}</td>
+
+<td>${members}</td>
+
+<td>
+<span class="status ${statusClass}">
+${task.status}
+</span>
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+function logout(){
+
+localStorage.clear();
+window.location.href="index.html";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -254,18 +254,27 @@ onkeyup="renderTasks()"
 
 <script>
 
-let userId = localStorage.getItem("userId");
+let userId = localStorage.getItem("userId")
 
-let allTasks=[];
-let currentFilter="ALL";
+/* Protect dashboard */
+
+if(!userId){
+alert("Please login first")
+window.location="login.html"
+}
+
+let allTasks=[]
+let currentFilter="ALL"
+
+/* Fetch tasks */
 
 fetch("/tasks/user/"+userId)
 .then(res=>res.json())
 .then(tasks=>{
 
-allTasks=tasks;
+allTasks = tasks
 
-renderTasks();
+renderTasks()
 
 });
 
@@ -413,7 +422,7 @@ method:"PUT"
 function logout(){
 
 localStorage.clear();
-window.location.href="index.html";
+window.location.href="login.html";
 
 }
 

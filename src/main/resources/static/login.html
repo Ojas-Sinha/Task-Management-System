@@ -77,13 +77,28 @@ email:email.value,
 password:password.value
 })
 })
-.then(res=>res.json())
+
+.then(res=>{
+
+if(!res.ok){
+throw new Error("Invalid Login")
+}
+
+return res.json()
+
+})
+
 .then(user=>{
 
 console.log(user)
 
+/* store session */
+
 localStorage.setItem("userId",user.id)
 localStorage.setItem("role",user.role)
+localStorage.setItem("name",user.name)
+
+/* redirect */
 
 if(user.role==="TEAM_LEAD")
 window.location="lead.html"
@@ -91,7 +106,10 @@ else
 window.location="member.html"
 
 })
-.catch(()=>alert("Invalid Login"))
+
+.catch(()=>{
+alert("Invalid Email or Password")
+})
 
 }
 

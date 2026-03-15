@@ -1,39 +1,82 @@
 package com.example.taskmanager.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    private String password;
+
+    @Column(name = "role", nullable = false)
     private String role;
 
-    public Long getId() { return id; }
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    public String getEmail() { return email; }
+    // Required by JPA
+    public User() {
+    }
 
-    public void setEmail(String email) { this.email = email; }
-
-    public void setName(String name) {   // required setter
+    // Optional constructor
+    public User(String name, String email, String password, String role) {
         this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getters and Setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {   // optional
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getPassword() { return password; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public void setPassword(String password) { this.password = password; }
+    public String getEmail() {
+        return email;
+    }
 
-    public String getRole() { return role; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public void setRole(String role) { this.role = role; }
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

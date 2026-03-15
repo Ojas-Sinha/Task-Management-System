@@ -17,16 +17,19 @@ public class DataLoader {
             if(repo.count()==0){
 
                 User lead = new User();
+                lead.setName("Team Lead");
                 lead.setEmail("lead@test.com");
                 lead.setPassword("123");
                 lead.setRole("TEAM_LEAD");
 
                 User member1 = new User();
+                member1.setName("John");
                 member1.setEmail("member1@test.com");
                 member1.setPassword("123");
                 member1.setRole("MEMBER");
 
                 User member2 = new User();
+                member2.setName("Rahul");
                 member2.setEmail("member2@test.com");
                 member2.setPassword("123");
                 member2.setRole("MEMBER");

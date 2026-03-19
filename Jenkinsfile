@@ -3,13 +3,7 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/Ojas-Sinha/Task-Management-System.git'
-            }
-        }
-
+        
         stage('Build Maven') {
             steps {
                 bat 'mvn clean compile'

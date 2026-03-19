@@ -10,6 +10,13 @@ pipeline {
             }
         }
 
+        stage('Start Application') {
+            steps {
+                bat 'docker compose up -d'
+                bat 'timeout /t 20'
+            }
+        }
+
         stage('Run Selenium Tests') {
             steps {
                 bat 'mvn test'
@@ -28,7 +35,7 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Deploy Kubernetes') {
             steps {
                 bat 'kubectl apply -f k8s/'
             }

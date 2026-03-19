@@ -4,9 +4,27 @@ pipeline {
 
     stages {
 
+        stage('Checkout Code') {
+            steps {
+                git 'https://github.com/Ojas-Sinha/Task-Management-System.git'
+            }
+        }
+
         stage('Build Maven') {
             steps {
-                bat 'mvn clean package -DskipTests'
+                bat 'mvn clean compile'
+            }
+        }
+
+        stage('Run Selenium Tests') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+        stage('Package Application') {
+            steps {
+                bat 'mvn package -DskipTests'
             }
         }
 
@@ -24,4 +42,5 @@ pipeline {
         }
 
     }
+
 }

@@ -3,8 +3,8 @@ pipeline {
     agent any
 
     stages {
-        
-        stage('Build Maven') {
+
+        stage('Build Application') {
             steps {
                 bat 'mvn clean compile'
             }
@@ -28,13 +28,11 @@ pipeline {
             }
         }
 
-        stage('Deploy Containers') {
+        stage('Deploy to Kubernetes') {
             steps {
-                bat 'docker compose down'
-                bat 'docker compose up -d'
+                bat 'kubectl apply -f k8s/'
             }
         }
 
     }
-
 }

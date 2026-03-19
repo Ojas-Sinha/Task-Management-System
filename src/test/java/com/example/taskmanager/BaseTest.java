@@ -1,10 +1,12 @@
 package com.example.taskmanager;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.AfterEach	;
-import org.junit.jupiter.api.BeforeEach;	
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+
 public class BaseTest {
 
     protected WebDriver driver;
@@ -14,20 +16,23 @@ public class BaseTest {
 
         WebDriverManager.chromedriver().setup();
 
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");          // important for Jenkins
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+
+        driver = new ChromeDriver(options);
 
         driver.manage().window().maximize();
 
-        driver.get("http://localhost:30007/login.html");
+        driver.get("http://localhost:8081/login.html");
     }
 
     @AfterEach
     public void tearDown(){
-
         if(driver != null){
             driver.quit();
         }
-
     }
-
 }

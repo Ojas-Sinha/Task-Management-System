@@ -9,7 +9,7 @@ public class AssignTaskTest extends BaseTest {
     public void assignTask() throws Exception {
 
         // Open login page
-        driver.get("http://localhost:30007/login.html");
+        driver.get("http://localhost:8081/login.html");
 
         // Login as Team Lead
         driver.findElement(By.id("email"))

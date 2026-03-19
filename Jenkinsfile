@@ -13,7 +13,7 @@ pipeline {
         stage('Start Application') {
             steps {
                 bat 'docker compose up -d'
-                bat 'timeout /t 20'
+                bat 'ping -n 20 127.0.0.1 > nul'
             }
         }
 

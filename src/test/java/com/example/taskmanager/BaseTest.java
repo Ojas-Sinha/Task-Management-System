@@ -18,7 +18,7 @@ public class BaseTest {
 
         driver.manage().window().maximize();
 
-        driver.get("http://localhost:8081/login.html");
+        driver.get("http://localhost:30007/login.html");
     }
 
     @AfterEach

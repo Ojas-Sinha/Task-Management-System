@@ -1,16 +1,15 @@
-package selenium;
+package com.example.taskmanager;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-
+import org.junit.jupiter.api.AfterEach	;
+import org.junit.jupiter.api.BeforeEach;	
 public class BaseTest {
 
     protected WebDriver driver;
 
-    @BeforeMethod
+    @BeforeEach
     public void setup(){
 
         WebDriverManager.chromedriver().setup();
@@ -19,10 +18,10 @@ public class BaseTest {
 
         driver.manage().window().maximize();
 
-        driver.get("http://localhost:8081");
+        driver.get("http://localhost:8081/login.html");
     }
 
-    @AfterMethod
+    @AfterEach
     public void tearDown(){
 
         if(driver != null){

@@ -1,7 +1,7 @@
-package selenium;
+package com.example.taskmanager;
 
 import org.openqa.selenium.By;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Test;
 
 public class MemberTaskViewTest extends BaseTest {
 

@@ -8,6 +8,7 @@ public class AssignTaskTest extends BaseTest {
     @Test
     public void assignTask(){
 
+        // Login as Team Lead
         driver.findElement(By.id("email"))
                 .sendKeys("lead@test.com");
 
@@ -17,16 +18,21 @@ public class AssignTaskTest extends BaseTest {
         driver.findElement(By.tagName("button"))
                 .click();
 
+        // Enter task title
         driver.findElement(By.id("taskTitle"))
-                .sendKeys("Selenium Test Task");
+                .sendKeys("Selenium Automation Task");
 
+        // Enter description
         driver.findElement(By.id("taskDesc"))
-                .sendKeys("Testing task assignment");
+                .sendKeys("Testing task assignment with Selenium");
 
-        driver.findElement(By.id("assignBtn"))
-                .click();
+        // Select member (checkbox example)
+        driver.findElement(By.xpath("//input[@value='2']")).click();
 
-        System.out.println("Task Assigned Test Passed");
+        // Click Assign button
+        driver.findElement(By.id("assignBtn")).click();
+
+        System.out.println("Assign Task Test Passed");
 
     }
 

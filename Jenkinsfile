@@ -5,7 +5,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"
-        KUBECONFIG = "C:\\ProgramData\\Jenkins\\.kube\\config"
+        KUBECONFIG = "C:\\Users\\DELL\\.kube\\config"
     }
 
     stages {

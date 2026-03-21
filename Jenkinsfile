@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "your-dockerhub-username/taskmanager-app"
+        DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"
         KUBECONFIG = "C:\\ProgramData\\Jenkins\\.kube\\config"
     }

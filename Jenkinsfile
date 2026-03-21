@@ -16,16 +16,10 @@ pipeline {
             }
         }
 
-        stage('Start Application') {
-            steps {
-                bat 'docker compose up -d'
-                // wait for app to start
-                bat 'timeout /t 20'
-            }
-        }
-
         stage('Run Selenium Tests') {
             steps {
+                bat 'docker compose up -d'
+                bat 'timeout /t 20'
                 bat 'mvn test'
             }
         }
@@ -55,12 +49,6 @@ pipeline {
             }
         }
 
-        stage('Test Kubernetes Connection') {
-            steps {
-                bat 'kubectl get nodes'
-            }
-        }
-
         stage('Deploy Kubernetes') {
             steps {
                 bat 'kubectl apply -f k8s/'
@@ -73,10 +61,10 @@ pipeline {
             echo 'Pipeline completed'
         }
         success {
-            echo 'Deployment Successful'
+            echo '✅ Deployment Successful'
         }
         failure {
-            echo 'Pipeline Failed'
+            echo '❌ Pipeline Failed'
         }
     }
 }

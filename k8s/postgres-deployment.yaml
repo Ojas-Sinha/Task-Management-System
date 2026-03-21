@@ -21,6 +21,6 @@ spec:
             - name: POSTGRES_USER
               value: postgres
             - name: POSTGRES_PASSWORD
-              value: postgres
+              value: Ojas20
           ports:
             - containerPort: 5432

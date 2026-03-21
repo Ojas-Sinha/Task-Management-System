@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: taskmanager
-          image: taskmanager-app:latest
-          imagePullPolicy: Never
+          image: ojassinha20/taskmanager-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080

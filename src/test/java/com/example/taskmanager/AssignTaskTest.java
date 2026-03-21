@@ -1,6 +1,11 @@
 package com.example.taskmanager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;   // ✅ FIXED
+
 import org.junit.jupiter.api.Test;
 
 public class AssignTaskTest extends BaseTest {
@@ -8,11 +13,12 @@ public class AssignTaskTest extends BaseTest {
     @Test
     public void assignTask() throws Exception {
 
-        // Open login page
         driver.get("http://localhost:8081/login.html");
 
-        // Login as Team Lead
-        driver.findElement(By.id("email"))
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+
+        // LOGIN
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")))
                 .sendKeys("lead@test.com");
 
         driver.findElement(By.id("password"))
@@ -21,27 +27,35 @@ public class AssignTaskTest extends BaseTest {
         driver.findElement(By.tagName("button"))
                 .click();
 
-        // wait for dashboard to load
-        Thread.sleep(3000);
+        // WAIT for dashboard
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
 
-        // Enter task title
-        driver.findElement(By.id("title"))
-                .sendKeys("Selenium Automation Task");
+        // ENTER TITLE
+        WebElement title = wait.until(
+                ExpectedConditions.elementToBeClickable(By.id("title"))
+        );
+        title.sendKeys("Selenium Automation Task");
 
-        // Enter description
+        // ENTER DESCRIPTION
         driver.findElement(By.id("desc"))
                 .sendKeys("Testing task assignment with Selenium");
 
-        // Select first member
-        driver.findElement(By.cssSelector("#memberList input[type='checkbox']"))
+        // WAIT for members (AJAX)
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
+                By.cssSelector("#memberList input"), 0
+        ));
+
+        // SELECT MEMBER
+        driver.findElement(By.cssSelector("#memberList input"))
                 .click();
 
-        // Click assign button
+        // CLICK ASSIGN BUTTON
         driver.findElement(By.xpath("//button[text()='Assign Task']"))
                 .click();
 
-        Thread.sleep(2000);
+        // WAIT FOR SUCCESS MESSAGE
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taskMessage")));
 
-        System.out.println("Assign Task Test Passed");
+        System.out.println("✅ Assign Task Test Passed");
     }
 }

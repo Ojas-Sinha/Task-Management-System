@@ -56,17 +56,11 @@ pipeline {
                 bat 'kubectl apply -f k8s/'
             }
         }
-    }
 
-    post {
-        always {
-            echo 'Pipeline completed'
-        }
-        success {
-            echo '✅ Deployment Successful'
-        }
-        failure {
-            echo '❌ Pipeline Failed'
+        stage('Port Forward') {
+            steps {
+                bat 'start cmd /c kubectl port-forward service/taskmanager-service 9090:8080'
+            }
         }
     }
 }

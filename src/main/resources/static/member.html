@@ -7,12 +7,12 @@
 
 body{
 font-family: Arial, sans-serif;
-background:#f4f6f9;
+background:#f0f9ff;
 margin:0;
 }
 
 .header{
-background:#2c3e50;
+background:#0f172a;
 color:white;
 padding:15px;
 display:flex;
@@ -21,7 +21,7 @@ align-items:center;
 }
 
 .logout{
-background:#e74c3c;
+background:#ef4444;
 color:white;
 border:none;
 padding:8px 14px;
@@ -32,6 +32,8 @@ cursor:pointer;
 .container{
 padding:20px;
 }
+
+/* cards */
 
 .cards{
 display:flex;
@@ -48,18 +50,13 @@ box-shadow:0 2px 5px rgba(0,0,0,0.1);
 text-align:center;
 }
 
-.card h3{
-margin:0;
-color:#555;
-}
-
 .card p{
 font-size:24px;
-margin-top:10px;
 font-weight:bold;
+color:#0284c7;
 }
 
-/* Toolbar */
+/* toolbar */
 
 .taskToolbar{
 display:flex;
@@ -70,24 +67,19 @@ flex-wrap:wrap;
 gap:15px;
 }
 
-/* Search Box */
-
 .searchBox input{
 padding:10px 14px;
 width:260px;
 border-radius:8px;
-border:1px solid #ccc;
+border:1px solid #bae6fd;
 font-size:14px;
 outline:none;
-transition:0.2s;
 }
 
 .searchBox input:focus{
-border-color:#3498db;
-box-shadow:0 0 4px rgba(52,152,219,0.4);
+border-color:#0284c7;
+box-shadow:0 0 4px rgba(2,132,199,0.4);
 }
-
-/* Filter Buttons */
 
 .filters{
 display:flex;
@@ -98,24 +90,18 @@ gap:10px;
 padding:8px 16px;
 border:none;
 border-radius:20px;
-background:#ecf0f1;
-color:#333;
+background:#e0f2fe;
+color:#0369a1;
 font-weight:500;
 cursor:pointer;
-transition:0.2s;
 }
-
-.filterBtn:hover{
-background:#d6eaf8;
-}
-
-/* Active filter */
 
 .filterBtn.active{
-background:#3498db;
+background:#0284c7;
 color:white;
-box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
+
+/* table */
 
 table{
 width:100%;
@@ -132,21 +118,15 @@ text-align:center;
 }
 
 th{
-background:#34495e;
-color:white;
+background:#0f172a;
+color:#ffffff;
 }
-
-/* Fixed column widths */
-
-th:nth-child(1), td:nth-child(1){width:20%;}
-th:nth-child(2), td:nth-child(2){width:35%;}
-th:nth-child(3), td:nth-child(3){width:20%;}
-th:nth-child(4), td:nth-child(4){width:10%;}
-th:nth-child(5), td:nth-child(5){width:15%;}
 
 td{
 word-wrap:break-word;
 }
+
+/* status */
 
 .status{
 padding:5px 10px;
@@ -155,21 +135,22 @@ color:white;
 font-size:12px;
 }
 
-.pending{background:#f39c12;}
-.working{background:#3498db;}
-.done{background:#2ecc71;}
+.pending{background:#f59e0b;}
+.working{background:#0284c7;}
+.done{background:#22c55e;}
 
-button{
-padding:6px 12px;
-border:none;
-border-radius:4px;
-cursor:pointer;
-margin:2px;
+/* buttons */
+
+.start{
+background:#0284c7;
+color:white;
 }
 
-.start{background:#3498db;color:white;}
-.complete{background:#2ecc71;color:white;}
-
+.complete{
+background:#22c55e;
+color:white;
+}
+  
 </style>
 
 </head>

@@ -38,33 +38,9 @@ pipeline {
                 bat 'docker compose up -d'
                 bat 'ping -n 20 127.0.0.1 > nul'
                 bat 'mvn test'
-                bat 'docker compose down'   // ✅ cleanup (important)
+                bat 'docker compose down'
             }
         }
-
-        stage('Push to DockerHub') {
-            steps {
-                withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
-                    usernameVariable: 'DOCKER_USER',
-                    passwordVariable: 'DOCKER_PASS'
-                )]) {
-
-                    bat 'echo Logging in as %DOCKER_USER%'
-
-                    // ✅ FIX: more stable login (avoids timeout)
-                    bat 'docker logout'
-                    bat 'ping -n 5 127.0.0.1 > nul'
-
-                    timeout(time: 2, unit: 'MINUTES') {
-                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
-                    }
-
-                    bat 'docker push %DOCKER_IMAGE%:%DOCKER_TAG%'
-                }
-            }
-        }
-
         stage('Deploy Kubernetes') {
             steps {
                 bat 'kubectl apply -f k8s/'
@@ -80,7 +56,6 @@ pipeline {
 
     post {
         always {
-            // ✅ cleanup to avoid future conflicts
             bat 'docker system prune -f'
         }
     }

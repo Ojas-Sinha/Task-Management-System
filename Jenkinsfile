@@ -38,7 +38,6 @@ pipeline {
                 bat 'docker compose up -d'
                 bat 'ping -n 20 127.0.0.1 > nul'
                 bat 'mvn test'
-                bat 'docker compose down'
             }
         }
         stage('Deploy Kubernetes') {

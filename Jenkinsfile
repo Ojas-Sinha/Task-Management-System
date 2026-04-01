@@ -2,15 +2,10 @@ pipeline {
 
     agent any
 
-    tools{
-        maven 'Maven'
-    }
-    
     environment {
         DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"
         KUBECONFIG = "C:\\Users\\DELL\\.kube\\config"
-        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
     }
 
     stages {
@@ -18,14 +13,6 @@ pipeline {
         stage('Build Application') {
             steps {
                 bat 'mvn clean compile'
-            }
-        }
-
-        stage('Run Selenium Tests') {
-            steps {
-                bat 'docker compose up -d'
-                bat 'ping -n 20 127.0.0.1 > nul'
-                bat 'mvn test'
             }
         }
 
@@ -38,6 +25,14 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 bat 'docker build -t %DOCKER_IMAGE%:%DOCKER_TAG% .'
+            }
+        }
+
+        stage('Run Selenium Tests') {
+            steps {
+                bat 'docker compose up -d'
+                bat 'ping -n 20 127.0.0.1 > nul'
+                bat 'mvn test'
             }
         }
 

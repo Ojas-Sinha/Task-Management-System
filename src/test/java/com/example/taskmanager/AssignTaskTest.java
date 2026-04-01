@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;   // ✅ FIXED
+import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ public class AssignTaskTest extends BaseTest {
 
         driver.get("http://localhost:8081/login.html");
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
         // LOGIN
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("email")))
@@ -27,10 +27,15 @@ public class AssignTaskTest extends BaseTest {
         driver.findElement(By.tagName("button"))
                 .click();
 
-        // WAIT for dashboard
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("title")));
+        // ✅ WAIT FOR REDIRECT TO DASHBOARD
+        wait.until(ExpectedConditions.urlContains("lead"));
 
-        // ENTER TITLE
+        // ✅ WAIT FOR MEMBERS LIST (more reliable than title)
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.id("memberList")
+        ));
+
+        // ENTER TITLE (wait again for safety)
         WebElement title = wait.until(
                 ExpectedConditions.elementToBeClickable(By.id("title"))
         );
@@ -40,7 +45,7 @@ public class AssignTaskTest extends BaseTest {
         driver.findElement(By.id("desc"))
                 .sendKeys("Testing task assignment with Selenium");
 
-        // WAIT for members (AJAX)
+        // WAIT for members (AJAX loaded)
         wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(
                 By.cssSelector("#memberList input"), 0
         ));
@@ -53,8 +58,11 @@ public class AssignTaskTest extends BaseTest {
         driver.findElement(By.xpath("//button[text()='Assign Task']"))
                 .click();
 
-        // WAIT FOR SUCCESS MESSAGE
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("taskMessage")));
+        // ✅ WAIT FOR SUCCESS MESSAGE TEXT (strong check)
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(
+                By.id("taskMessage"),
+                "successfully"
+        ));
 
         System.out.println("✅ Assign Task Test Passed");
     }

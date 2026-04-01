@@ -15,7 +15,7 @@ public class BaseTest {
     @BeforeEach
     public void setup(){
     
-        WebDriverManager.chromedriver().setup();
+        WebDriverManager.chromedriver().browserVersion("146").setup();
     
         ChromeOptions options = new ChromeOptions();
     

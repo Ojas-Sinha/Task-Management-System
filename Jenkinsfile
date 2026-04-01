@@ -1,9 +1,11 @@
 pipeline {
 
     agent any
+
     tools {
         maven 'Maven'
     }
+
     environment {
         DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"
@@ -36,6 +38,7 @@ pipeline {
                 bat 'docker compose up -d'
                 bat 'ping -n 20 127.0.0.1 > nul'
                 bat 'mvn test'
+                bat 'docker compose down'   // ✅ cleanup (important)
             }
         }
 
@@ -48,7 +51,15 @@ pipeline {
                 )]) {
 
                     bat 'echo Logging in as %DOCKER_USER%'
-                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+
+                    // ✅ FIX: more stable login (avoids timeout)
+                    bat 'docker logout'
+                    bat 'ping -n 5 127.0.0.1 > nul'
+
+                    timeout(time: 2, unit: 'MINUTES') {
+                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    }
+
                     bat 'docker push %DOCKER_IMAGE%:%DOCKER_TAG%'
                 }
             }
@@ -64,6 +75,13 @@ pipeline {
             steps {
                 bat 'start cmd /c kubectl port-forward service/taskmanager-service 9090:8080'
             }
+        }
+    }
+
+    post {
+        always {
+            // ✅ cleanup to avoid future conflicts
+            bat 'docker system prune -f'
         }
     }
 }

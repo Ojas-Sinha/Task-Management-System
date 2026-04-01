@@ -2,6 +2,10 @@ pipeline {
 
     agent any
 
+    tools{
+        maven 'Maven'
+    }
+    
     environment {
         DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"

@@ -9,7 +9,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "ojassinha20/taskmanager-app"
         DOCKER_TAG = "latest"
-        KUBECONFIG = "C:\\Users\\DELL\\.kube\\config"
+        KUBECONFIG = "C:\\Users\\nitin\\.kube\\config"
         PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
     }
 

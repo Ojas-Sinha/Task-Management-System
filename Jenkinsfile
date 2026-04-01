@@ -53,10 +53,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        always {
-            bat 'docker system prune -f'
-        }
-    }
 }

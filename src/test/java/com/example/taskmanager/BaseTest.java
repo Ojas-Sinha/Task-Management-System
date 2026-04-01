@@ -11,21 +11,26 @@ public class BaseTest {
 
     protected WebDriver driver;
 
+    
     @BeforeEach
     public void setup(){
-
+    
         WebDriverManager.chromedriver().setup();
-
+    
         ChromeOptions options = new ChromeOptions();
+    
         options.addArguments("--headless");          // important for Jenkins
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
-
+    
+        // 🔥 VERY IMPORTANT (your actual Chrome path)
+        options.setBinary("C:\\Users\\nitin\\AppData\\Local\\Google\\Chrome\\Application\\chrome.exe");
+    
         driver = new ChromeDriver(options);
-
+    
         driver.manage().window().maximize();
-
+    
         driver.get("http://localhost:8081/login.html");
     }
 

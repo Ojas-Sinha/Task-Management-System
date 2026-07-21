@@ -74,7 +74,7 @@ Before running the project, install:
 ### Clone the repository
 
 ```bash
-https://github.com/Ojas-Sinha/Task-Management-System.git
+git clone https://github.com/Ojas-Sinha/Task-Management-System.git
 ```
 
 ### Navigate to the project

@@ -55,27 +55,6 @@ The project demonstrates modern software development practices, including RESTfu
 
 ---
 
-## 📂 Project Structure
-
-```
-Task-Management-System/
-│
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   ├── resources/
-│   │   └── webapp/
-│   │
-│   └── test/
-│
-├── Dockerfile
-├── pom.xml
-├── README.md
-└── .gitignore
-```
-
----
-
 ## ⚙️ Prerequisites
 
 Before running the project, install:
@@ -83,9 +62,9 @@ Before running the project, install:
 * Java 17 or later
 * Maven
 * PostgreSQL
-* Docker (optional)
-* Kubernetes (optional)
-* Jenkins (optional)
+* Docker
+* Kubernetes
+* Jenkins
 * Git
 
 ---

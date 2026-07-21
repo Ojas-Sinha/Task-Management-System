@@ -172,8 +172,3 @@ The project includes a Jenkins pipeline that automates:
 * Email notifications
 * Dark mode
 * Mobile-responsive UI
-
----
-
-
-Feel free to connect and contribute to the project!
